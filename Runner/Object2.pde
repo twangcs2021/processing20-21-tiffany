@@ -1,11 +1,11 @@
-class Ring {
+public class Ring {
   private PShape s;
   private float x;
   private float y;
   private int timeCreated;
-  ArrayList<PVector> original;
+  private ArrayList<PVector> original;
   
-  Ring (int t) {
+  public Ring (int t) {
     timeCreated = t;
     x = width / 2;
     y = height / 2; 
@@ -28,15 +28,15 @@ class Ring {
     s.endShape(CLOSE);
   }
   
-  int getTime() {
+  public int getTime() {
     return timeCreated;
   }
   
-  float getWidth() {
+  public float getWidth() {
     return s.width;
   }
 
-  void wiggle() {
+  public void wiggle() {
     float xoff = 0;
     float yoff = 0;
     float offset;
@@ -53,31 +53,17 @@ class Ring {
     }
   }
   
-  void grow(int endWiggleTime) {
-    while (endWiggleTime < audioLength) {
-      translate(x, y);
-      for (int i = 0; i < bands; i++) {
-        rotate(radians(i*0.7*20));
-      }
-      scale(1.5);
-      if (seconds % 10 == 0) {
-        shape(s, 0, 0);
-      }
-      endWiggleTime += seconds;
-    }
-  }
-  
-  void setStroke(int r, int g, int b) {
+  public void setStroke(int r, int g, int b) {
     s.setStroke(color(r, g, b));
   }
   
-  void resize(float newSize) {
+  public void resize(float newSize) {
     s.scale(newSize);
     s.width *= newSize;
     s.height *= newSize;
   }
   
-  void display() {
+  public void display() {
     pushMatrix();
     translate(x, y);
     for (int i = 0; i < bands; i++) {

@@ -9,10 +9,9 @@ ArrayList<Ring> rings;
 ArrayList<Integer> time;
 int audioLength;
 int seconds;
-PShape s;
 float displayWidth;
 
-void setup() {
+public void setup() {
   frameRate(18);
   size(700, 700);
   bands = 512;
@@ -32,7 +31,7 @@ void setup() {
   }
 }
 
-void draw() {
+public void draw() {
   background(0);
   displayWidth = (width / 2) - 20;
   for (Ring ring : rings) {
