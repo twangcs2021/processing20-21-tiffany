@@ -1,35 +1,59 @@
-/**
- * Objects
- * by hbarragan. 
- * 
- * Move the cursor across the image to change the speed and positions
- * of the geometry. The class MRect defines a group of lines.
- */
+import processing.sound.*;
+private FFT fft;
+private SoundFile in;
+int bands;
+float[] spectrum;
+SoundBar soundbar;
+Ring w;
+ArrayList<Ring> rings;
+ArrayList<Integer> time;
+int audioLength;
+int seconds;
+PShape s;
+float displayWidth;
 
-private MRect r1, r2, r3, r4;
- 
-void setup()
-{
-  size(640, 360);
-  fill(255, 204);
-  noStroke();
-  r1 = new MRect(1, 134.0, 0.532, 0.1*height, 10.0, 60.0);
-  r2 = new MRect(2, 44.0, 0.166, 0.3*height, 5.0, 50.0);
-  r3 = new MRect(2, 58.0, 0.332, 0.4*height, 10.0, 35.0);
-  r4 = new MRect(1, 120.0, 0.0498, 0.9*height, 15.0, 60.0);
+void setup() {
+  frameRate(18);
+  size(700, 700);
+  bands = 512;
+  fft = new FFT(this, bands);
+  in = new SoundFile(this, "Tiffany copy.mp3");
+  in.play();
+  fft.input(in);
+  spectrum = new float[bands];
+  soundbar = new SoundBar(bands); 
+  rings = new ArrayList<Ring>();
+  w = new Ring(seconds);
+  w.resize(0.3);
+  time = new ArrayList<Integer>();
+  audioLength = (int) in.duration();
+  for (int i = 0; i < audioLength / 10; i++) {
+    rings.add(new Ring(i * 10));
+  }
 }
- 
-void draw()
-{
+
+void draw() {
   background(0);
-  
-  r1.display();
-  r2.display();
-  r3.display();
-  r4.display();
- 
-  r1.move(mouseX-(width/2), mouseY+(height*0.1), 30);
-  r2.move((mouseX+(width*0.05))%width, mouseY+(height*0.025), 20);
-  r3.move(mouseX/4, mouseY-(height*0.025), 40);
-  r4.move(mouseX-(width/2), (height-mouseY), 50);
+  displayWidth = (width / 2) - 20;
+  for (Ring ring : rings) {
+    w = ring;
+    w.display();
+    seconds = millis() / 1000;
+    if (seconds < w.getTime() + 10) {
+      int r = soundbar.getR();
+      int g = soundbar.getG();
+      int b = soundbar.getB();
+      w.setStroke(r, g, b);
+      w.wiggle();
+    }
+    if (seconds < audioLength) {
+      if (w.getWidth() < displayWidth) {
+        if (seconds > w.getTime() + 10) {
+          w.resize(1.001);
+        }
+      }
+      displayWidth = w.getWidth() - 10;
+    }
+  }
+  soundbar.display();
 }
