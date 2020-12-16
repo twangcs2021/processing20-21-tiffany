@@ -1,15 +1,14 @@
 import processing.sound.*;
 private FFT fft;
 private SoundFile in;
-int bands;
-float[] spectrum;
-SoundBar soundbar;
-Ring w;
-ArrayList<Ring> rings;
-ArrayList<Integer> time;
-int audioLength;
-int seconds;
-float displayWidth;
+private int bands;
+private float[] spectrum;
+private SoundBar soundbar;
+private Ring w;
+private ArrayList<Ring> rings;
+private int audioLength;
+private int seconds;
+private float displayWidth;
 
 public void setup() {
   frameRate(18);
@@ -24,7 +23,6 @@ public void setup() {
   rings = new ArrayList<Ring>();
   w = new Ring(seconds);
   w.resize(0.3);
-  time = new ArrayList<Integer>();
   audioLength = (int) in.duration();
   for (int i = 0; i < audioLength / 10; i++) {
     rings.add(new Ring(i * 10));
