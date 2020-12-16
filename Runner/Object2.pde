@@ -1,5 +1,3 @@
- // An object that wraps the PShape
-
 class Ring {
   private PShape s;
   private float x;
